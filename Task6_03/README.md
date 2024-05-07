@@ -1,0 +1,1 @@
+Just use "docker-compose up -d" to run all containers and execute tests 
