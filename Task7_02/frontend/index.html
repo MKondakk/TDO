@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend</title>
+</head>
+<body>
+    <h1>Frontend Microservice</h1>
+    <button onclick="getData()">Get All Data</button>
+    <button onclick="getAverage()">Get Average</button>
+    <button onclick="getDataById()">Get Data by ID</button>
+
+    <script>
+        async function getData() {
+            try {
+                const response = await fetch('http://host.docker.internal:3000/data');
+                const data = await response.json();
+                console.log('Data:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function getAverage() {
+            try {
+                const response = await fetch('http://host.docker.internal:3000/data/average');
+                const data = await response.json();
+                console.log('Average:', data.average);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function getDataById() {
+            const id = prompt('Enter ID:');
+            if (!id) return;
+            try {
+                const response = await fetch(`http://host.docker.internal:3000/data/${id}`);
+                const data = await response.json();
+                console.log('Data by ID:', data);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+    </script>
+</body>
+</html>
