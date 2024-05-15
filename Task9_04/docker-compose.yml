@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  api:
+    build: ./api
+    container_name: api-container
+    ports:
+      - "3000:3000"
+    environment:
+      DB_USER: postgres
+      DB_HOST: postgres
+      DB_NAME: task9
+      DB_PASSWORD: postgres
+      DB_PORT: 5432
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: "redis:alpine"
+    container_name: redis-container
+
+  postgres:
+    image: "postgres:alpine"
+    container_name: postgres-container
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: task9
+      DB_HOST: postgres
+      DB_PORT: 5432
+  nginx:
+    build: ./nginx
+    container_name: nginx-container
+    ports:
+      - "80:80"
+volumes:
+  postgres-volume:
