@@ -1,0 +1,27 @@
+pipeline {
+    agent {
+        docker {
+            image 'python:3.9'
+            args '-u root'
+        }
+    }
+    
+    triggers {
+        pollSCM('* * * * *') 
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git url: 'https://github.com/MKondakk/TDO.git', branch: 'main'
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('Task12_01') {
+                    sh 'python -m unittest discover'
+                }
+            }
+        }
+    }
+}
